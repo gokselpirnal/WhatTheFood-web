@@ -97,9 +97,8 @@ angular.module('wtf', ['ui.bootstrap', 'ui.router', 'ngNotify', 'angular-loading
                         }
                     }
                 })
-
                 .state('food_detail', {
-                    url: '/food/:food_id',
+                    url: '/food/:foodId',
                     views: {
                         "header": {
                             templateUrl: "templates/header/header.html",

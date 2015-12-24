@@ -1,49 +1,22 @@
 <div class="container">
 
     <!-- Jumbotron Header -->
-    <div class="row well">
+    <div class="row " ng-init="food = detail()">
         <div class="col-lg-3">
             <div class="thumbnail">
-                <img src="http://lorempixel.com/400/400/people" alt="">
+                <img src="http://lorempixel.com/400/400/food" alt="">
             </div>
         </div>
         <div class="col-lg-9">
-            <h3>{{profile.firstname}} {{profile.lastname}}</h3>
+            <h2><b>{{food.name}}</b></h2>
 
-            <p>{{profile.about}}</p>
+            <b class="label label-danger">Malzemeler</b>
+            <pre>{{food.materials}}</pre>
+
+            <b class="label label-danger">Hazırlanışı</b>
+
+            <p class="well">{{food.description}}</p>
         </div>
     </div>
 
-    <hr>
-
-    <!-- Title -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>Eklediğiniz Tarifler</h3>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <!-- Page Features -->
-    <div class="row text-center">
-
-        <div class="col-md-3 col-sm-6 hero-feature" ng-repeat="food in foods">
-            <div class="thumbnail">
-                <img src="http://lorempixel.com/400/200/food/{{food.food_id}}" alt="">
-
-                <div class="caption">
-                    <h3>{{food.name}}</h3>
-
-                    <p>{{food.description | limitTo: 120 }}{{food.description.length > 120 ? '...' : ''}}</p>
-
-                    <p>
-                        <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More
-                        Info</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <!-- /.row -->
 </div>

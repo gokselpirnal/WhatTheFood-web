@@ -10,24 +10,21 @@ angular.module('wtf')
             $scope.foods = {};
 
             $scope.profile = function () {
-
-                UserService
-                    .profile(function (response) {
-                        if (!response.error) {
-                            if (response.user_id) {
-                                $scope.profile = response;
-                            }
+                UserService.profile(function (response) {
+                    if (!response.error) {
+                        if (response.user_id) {
+                            $scope.profile = response;
                         }
-                    })
+                    }
+                })
             };
 
             $scope.foods = function () {
-                UserService
-                    .foods(function (response) {
-                        if (!response.error) {
-                            $scope.foods = response;
-                        }
-                    })
+                UserService.foods(function (response) {
+                    if (!response.error) {
+                        $scope.foods = response;
+                    }
+                })
             };
 
             $scope.profile();
