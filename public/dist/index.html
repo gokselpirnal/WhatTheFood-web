@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" ng-app="wtf">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WhatTheFood</title>
+    <!-- STYLES -->
+    <link rel="stylesheet" href="lib/css/main.min.css"/>
+    <!-- SCRIPTS -->
+    <script src="lib/js/main.min.js"></script>
+    <!-- Custom Scripts -->
+    <script type="text/javascript" src="../dist/js/wtf.min.js"></script>
+</head>
+<body ng-controller="MasterCtrl">
+<div ui-view="full"></div>
+<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+
+    <div class="page-content">
+
+        <div ui-view="header"></div>
+        <!-- Main Content -->
+        <div ui-view="content"></div>
+
+        <div ui-view="footer"></div>
+    </div>
+    <!-- End Page Content -->
+
+</body>
+</html>

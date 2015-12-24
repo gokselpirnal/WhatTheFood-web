@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" ng-app="wtf">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WhatTheFood</title>
+    <!-- STYLES -->
+    <!-- build:css lib/css/main.min.css -->
+    <link rel="stylesheet" type="text/css" href="components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="components/ng-notify/dist/ng-notify.min.css">
+    <link rel="stylesheet" type="text/css" href="components/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/core.css">
+    <!-- endbuild -->
+    <!-- SCRIPTS -->
+    <!-- build:js lib/js/main.min.js -->
+    <script type="text/javascript" src="components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="components/moment/moment.js"></script>
+    <script type="text/javascript" src="components/angular-moment/angular-moment.js"></script>
+    <script type="text/javascript" src="components/ng-notify/dist/ng-notify.min.js"></script>
+    <script type="text/javascript" src="components/angular-loading-bar/build/loading-bar.min.js"></script>
+    <script type="text/javascript" src="components/moment/locale/tr.js"></script>
+    <!-- endbuild -->
+    <!-- Custom Scripts -->
+    <script type="text/javascript" src="../dist/js/wtf.min.js"></script>
+</head>
+<body ng-controller="MasterCtrl">
+<div ui-view="full"></div>
+<div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+
+    <div class="page-content">
+
+        <div ui-view="header"></div>
+        <!-- Main Content -->
+        <div ui-view="content"></div>
+
+        <div ui-view="footer"></div>
+    </div>
+    <!-- End Page Content -->
+
+</body>
+</html>
