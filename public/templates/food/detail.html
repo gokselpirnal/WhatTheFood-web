@@ -2,31 +2,41 @@
 
     <!-- Jumbotron Header -->
     <div class="row well" ng-init="food = detail()">
-        <div class="col-lg-3">
-            <div class="thumbnail">
-                <img src="http://lorempixel.com/400/400/food" alt="">
+        <div class="col-lg-12 text-right" ng-show="food.user_id == user._id">
+            <button class="btn btn-danger" ng-click="removeFood(food.food_id)"><span class="fa fa-trash-o"></span> Sil
+            </button>
+            <button class="btn btn-primary"><span class="fa fa-refresh"></span> Güncelle</button>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="thumbnail">
+                    <img src="http://lorempixel.com/400/400/food" alt="">
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <h2><b>{{food.name}}</b></h2>
+
+                <b class="label label-danger">Malzemeler</b>
+                <pre>{{food.materials}}</pre>
+
+                <b class="label label-danger">Hazırlanışı</b>
+
+                <p class="well">{{food.description}}</p>
+
             </div>
         </div>
-        <div class="col-lg-9">
-            <h2><b>{{food.name}}</b></h2>
-
-            <b class="label label-danger">Malzemeler</b>
-            <pre>{{food.materials}}</pre>
-
-            <b class="label label-danger">Hazırlanışı</b>
-
-            <p class="well">{{food.description}}</p>
-
-        </div>
-        <div class="col-lg-2">
-            <div class="thumbnail">
-                <img src="http://lorempixel.com/400/400/people" alt="">
+        <hr>
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="thumbnail">
+                    <img src="http://lorempixel.com/400/400/people">
+                </div>
             </div>
-        </div>
-        <div class="col-lg-10">
-            <h3><a href="#/profile/{{food.user.user_id}}">{{food.user.firstname}} {{food.user.lastname}}</a></h3>
+            <div class="col-lg-10">
+                <h3><a href="#/profile/{{food.user.user_id}}">{{food.user.firstname}} {{food.user.lastname}}</a></h3>
 
-            <p>{{food.user.about}}</p>
+                <p>{{food.user.about}}</p>
+            </div>
         </div>
     </div>
 

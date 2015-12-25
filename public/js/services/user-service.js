@@ -32,7 +32,7 @@ angular.module('wtf')
                 })
         };
 
-        service.updateProfile = function (profile) {
+        service.updateProfile = function (profile,callback) {
             $http({
                 method: 'PUT',
                 url: $rootScope.serviceUrl + '/user/profile',
@@ -40,7 +40,7 @@ angular.module('wtf')
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {
-                    callback(response.data);
+                    callback(response);
                 })
         };
 

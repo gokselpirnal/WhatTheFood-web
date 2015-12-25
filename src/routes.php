@@ -188,15 +188,15 @@ $app->group('/food', function () {
 			WHERE MATCH(`materials`) AGAINST(? IN BOOLEAN MODE) 
 			ORDER BY relevance/( LENGTH( `materials` ) - LENGTH( REPLACE( `materials`, '\n', '' ) ) + 1 ) DESC LIMIT 0,18",array($sqlStr ,$sqlStr ));
 		
-		return $response->write($foods->toJson());
+		return $response->write(json_encode($foods,JSON_UNESCAPED_UNICODE));
     })->setName('search_foods');
 	
 	// sayfalı son yemekler 
 	$this->get('/all/{page:[0-9]+}', function ($request, $response, $args) {
-        $food = Food::select('food_id','name','description')->take(6)->offset($args['page']*6)->orderBy('food_id','DESC')->get();
+        $food = Food::select('food_id','name','description')->where('deleted',0)->take(6)->offset($args['page']*6)->orderBy('food_id','DESC')->get();
         if($food)
 			return $response->withStatus(200)->write(json_encode($food));
-		return $response->withStatus(404)->write("ERR");
+		return $response->withStatus(404)->write('{"msg": "ERR"}');
     })->setName('foods');
 	
 	// sayfalı son yemekler 
@@ -207,12 +207,15 @@ $app->group('/food', function () {
 
 	// id'den yemek
 	$this->get('/{id:[0-9]+}', function ($request, $response, $args) {
-        $food = Food::where('food_id','=',$args['id'])->get()->first();
+        $food = Food::where('food_id',$args['id'])->where('deleted',0)->get()->first();
+
+        $food->displayed = $food->displayed + 1;
+        $food->save();
 		if($food){
 			$food->user = $food->profile();
 			return $response->withStatus(200)->write(json_encode($food));
 		}
-		return $response->withStatus(404)->write(json_encode(array('msg' => 'ERR')));
+		return $response->withStatus(404)->write('{"msg": "ERR"}');
     })->setName('food');
 	
 	// yemek ekle
@@ -234,7 +237,7 @@ $app->group('/food', function () {
 			$food->save();
 			return $response->withStatus(200)->write(json_encode($food));
 		}catch (Illuminate\Database\QueryException $e){
-			return $response->withStatus(304)->write("ERR");
+			return $response->withStatus(200)->write('{"msg": "ERR"}');
 		}
 
     })->setName('food');
@@ -257,7 +260,7 @@ $app->group('/food', function () {
 		if($food->save()){
 			return $response->withStatus(200)->getBody()->write(json_encode($food));
 		}
-		return $response->withStatus(304)->getBody()->write("ERR");
+		return $response->withStatus(304)->getBody()->write('{"msg": "ERR"}');
     })->setName('food');
 	
 	// yemek sil
@@ -271,9 +274,9 @@ $app->group('/food', function () {
 		
 		$food->deleted = true;
 		if($food->save()){
-			return $response->withStatus(200)->getBody()->write("OK");
+			return $response->withStatus(200)->write('{"msg": "OK"}');
 		}
-		return $response->withStatus(304)->getBody()->write("ERR");
+		return $response->withStatus(304)->write('{"msg": "ERR"}');
     })->setName('food');
 	
 })->add($UserToken);

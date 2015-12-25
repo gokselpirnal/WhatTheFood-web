@@ -22,13 +22,21 @@ angular.module('wtf')
                     .register(email, password, function (response) {
                         if (!response.error) {
                             if (response.message) {
-                                $scope.msg.show = true;
-                                $scope.msg.text = response.message;
-                                $scope.msg.textColor = "text-danger";
+                                ngNotify.set('Kaydınız tamamlandı. Giriş yapabilirsiniz.', {
+                                    position: 'bottom',
+                                    duration: 2000,
+                                    button: true,
+                                    sticky: true,
+                                    default:error
+                                });
                             }else if(response.id){
-                                $scope.msg.show = true;
-                                $scope.msg.text = "Kayıt başarılı.";
-                                $scope.msg.textColor = "text-success";
+                                ngNotify.set('Kaydınız tamamlandı. Giriş yapabilirsiniz.', {
+                                    position: 'bottom',
+                                    duration: 2000,
+                                    button: true,
+                                    sticky: true,
+                                    default:error
+                                });
                             }
 
                         }

@@ -15,7 +15,7 @@ angular.module('wtf')
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {
-                    callback(response.data);
+                    callback(response);
                 })
         };
 
@@ -27,7 +27,7 @@ angular.module('wtf')
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function (response) {
-                    callback(response.data);
+                    callback(response);
                 });
 
         };
@@ -40,7 +40,7 @@ angular.module('wtf')
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {
-                    callback(response.data);
+                    callback(response);
                 })
 
         };
@@ -53,7 +53,7 @@ angular.module('wtf')
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {
-                    callback(response.data);
+                    callback(response);
                 })
 
         };
@@ -66,7 +66,7 @@ angular.module('wtf')
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {
-                    callback(response.data);
+                    callback(response);
                 })
 
         };

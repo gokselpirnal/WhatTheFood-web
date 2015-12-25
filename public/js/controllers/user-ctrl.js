@@ -3,8 +3,8 @@
  */
 
 angular.module('wtf')
-    .controller('UserCtrl', ['$scope', 'UserService', '$state', '$stateParams', '$filter', '$rootScope', '$location', '$cookies', '$http',
-        function ($scope, UserService, $state, $stateParams, $filter, $rootScope, $location, $cookies, $http) {
+    .controller('UserCtrl', ['$scope', 'UserService', '$state', '$stateParams', '$filter', '$rootScope', '$location', '$cookies', 'ngNotify', '$http',
+        function ($scope, UserService, $state, $stateParams, $filter, $rootScope, $location, $cookies, ngNotify, $http) {
 
             $scope.profile = {};
             $scope.userFoods = {};
@@ -40,7 +40,26 @@ angular.module('wtf')
             $scope.updateProfile = function (profile) {
                 UserService.updateProfile(profile, function (response) {
                     console.log(response);
-                    $location.path('#/profile/' + $rootScope.currentUser._id)
+
+                    if (response.status == 200) {
+                        ngNotify.set('Profiliniz güncellendi', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 4000,
+                            button: true,
+                            sticky: true
+                        });
+                        $location.path('#/profile/' + $rootScope.currentUser._id)
+                    } else {
+                        ngNotify.set('Profiliniz güncellenemedi', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 4000,
+                            button: true,
+                            sticky: true
+                        });
+                    }
+
                 })
             };
 

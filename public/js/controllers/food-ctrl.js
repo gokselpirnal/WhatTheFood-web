@@ -3,8 +3,8 @@
  */
 
 angular.module('wtf')
-    .controller('FoodCtrl', ['$scope', 'FoodService', 'CategoryService', 'UserService', '$state', '$stateParams', '$rootScope', '$location', '$cookies', '$http',
-        function ($scope, FoodService, CategoryService, UserService, $state, $stateParams, $rootScope, $location, $cookies, $http) {
+    .controller('FoodCtrl', ['$scope', 'FoodService', 'CategoryService', 'UserService', '$state', '$stateParams', '$rootScope', '$location', '$cookies', 'ngNotify', '$http',
+        function ($scope, FoodService, CategoryService, UserService, $state, $stateParams, $rootScope, $location, $cookies, ngNotify, $http) {
 
             $scope.profile = {};
             $scope.foods = {};
@@ -15,6 +15,7 @@ angular.module('wtf')
             $scope.selectedCategoryName = "Kategori Seçiniz";
             $scope.material = '';
             $scope.isLastPage = false;
+            $scope.user = $cookies.getObject("globals").currentUser;
 
             $scope.getPage = function (page) {
                 $scope.page = page;
@@ -31,8 +32,19 @@ angular.module('wtf')
             $scope.detail = function (foodId) {
                 foodId = (foodId || $stateParams.foodId);
                 FoodService.detail(foodId, function (response) {
-                    $scope.food = response;
+                    if(response.status == 200) {
+                        $scope.food = response.data;
+                    }else{
+                        ngNotify.set('Tarif bulunamadı !', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
+                    }
                 });
+
             };
 
             $scope.getUserProfile = function (userId) {
@@ -46,6 +58,37 @@ angular.module('wtf')
                     if (!response.error) {
                         console.log(response);
                         $scope.food = response;
+
+                        ngNotify.set('Tarifiniz Kaydedildi', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
+                    }
+                });
+
+            };
+
+            $scope.removeFood = function (foodId) {
+                FoodService.remove(foodId, function (response) {
+                    if (response.status == 200) {
+                        ngNotify.set('Tarfiniz Silindi', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
+                    }else{
+                        ngNotify.set('Tarfiniz silinemedi', {
+                            position: 'bottom',
+                            type: 'info',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
                     }
                 })
             };
