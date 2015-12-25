@@ -3,8 +3,8 @@
  */
 
 angular.module('wtf')
-    .controller('RegisterCtrl', ['$scope', 'RegisterService', '$rootScope', '$location', '$cookies', '$http',
-        function ($scope, RegisterService, $rootScope, $location, $cookies, $http) {
+    .controller('RegisterCtrl', ['$scope', 'UserService', '$rootScope', '$location', '$cookies', 'ngNotify', '$http',
+        function ($scope, UserService, $rootScope, $location, $cookies, ngNotify, $http) {
 
             $scope.user = {
                 email: "",
@@ -18,27 +18,24 @@ angular.module('wtf')
                 var email = user.email;
                 var password = user.password;
 
-                RegisterService
+                UserService
                     .register(email, password, function (response) {
-                        if (!response.error) {
-                            if (response.message) {
-                                ngNotify.set('Kaydınız tamamlandı. Giriş yapabilirsiniz.', {
-                                    position: 'bottom',
-                                    duration: 2000,
-                                    button: true,
-                                    sticky: true,
-                                    default:error
-                                });
-                            }else if(response.id){
-                                ngNotify.set('Kaydınız tamamlandı. Giriş yapabilirsiniz.', {
-                                    position: 'bottom',
-                                    duration: 2000,
-                                    button: true,
-                                    sticky: true,
-                                    default:error
-                                });
-                            }
-
+                        if (response.data.msg) {
+                            ngNotify.set(response.data.msg, {
+                                position: 'bottom',
+                                type: 'warn',
+                                duration: 2000,
+                                button: true,
+                                sticky: true
+                            });
+                        } else if (response.status == 200) {
+                            ngNotify.set('Kaydınız tamamlandı. Giriş yapabilirsiniz.', {
+                                position: 'bottom',
+                                type: 'error',
+                                duration: 2000,
+                                button: true,
+                                sticky: true
+                            });
                         }
                     })
             }

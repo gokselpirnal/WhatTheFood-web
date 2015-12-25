@@ -1,17 +1,16 @@
 ﻿<?php
 // Routes
 
-header('Content-Type: application/json; charset=utf-8');
-
+// user token kontrolü
 $UserToken = function ($request, $response, $next) {
 	
 	if(!isset($request->getHeader('token')[0])){
-		$response->write('{"message":"Yetkisiz erişim"}');
+		$response->write('{"msg":"Yetkisiz erişim"}');
 		return $response->withHeader('Content-type', 'application/json')->withStatus(401);
 	}else{
 		$token = Token::where('token','=',$request->getHeader('token')[0])->get()->first();
 		if(!$token){
-			$response->write('{"message":"Yetkisiz erişim"}');
+			$response->write('{"msg":"Yetkisiz erişim"}');
 			return $response->withHeader('Content-type', 'application/json')->withStatus(401);
 		}
 	}
@@ -45,9 +44,13 @@ $app->post('/login',function($request, $response, $args){
 
 	
 	if ($user->isEmpty()){
-		return $response->withStatus(404)->withHeader('Content-type', 'application/json')->write('{"message":"Hatalı kullanıcı adı veya parola"}');
+		return $response->withStatus(404)->withHeader('Content-type', 'application/json')->write('{"msg":"Hatalı kullanıcı adı veya parola"}');
 	}
 	$user = $user->first();
+
+	if($user->deleted == 1){
+		return $response->withStatus(200)->withHeader('Content-type', 'application/json')->write('{"msg":"Hesabınız engellendi !"}');
+	}
 	
 	$token = Token::where('user_id',$user->user_id)->get();
 
@@ -76,7 +79,7 @@ $app->post('/register',function($request, $response, $args){
 	$password = $request->getParsedBody()["password"];
 	
 	if(!isset($email) && !isset($password)){
-		return $response->write('{"message":"email ve password bilgisi zorunludur"}')->withHeader('Content-type', 'application/json')->withStatus(203);
+		return $response->write('{"msg":"email ve password bilgisi zorunludur"}')->withHeader('Content-type', 'application/json')->withStatus(203);
 	}
 	
 	$newUser->email = $request->getParsedBody()["email"];
@@ -91,12 +94,12 @@ $app->post('/register',function($request, $response, $args){
 		$errorCode = $e->errorInfo[1];
 		// column unique
 		if($errorCode == 1062){
-			return $response->write('{"message":"Email adresi kullanılıyor !"}')->withHeader('Content-type', 'application/json')->withStatus(200);
+			return $response->write('{"msg":"Email adresi kullanılıyor !"}')->withHeader('Content-type', 'application/json')->withStatus(200);
 		}
-		return $response->getBody()->write('{"message":"Kayıt esnasında bir hata oluştu !"}')->withStatus(500);
+		return $response->getBody()->write('{"msg":"Kayıt esnasında bir hata oluştu !"}')->withStatus(500);
 	}
 	
-	return $response->withHeader('Content-type', 'application/json')->withStatus(201);
+	return $response->withHeader('Content-type', 'application/json')->withStatus(200);
 });
 
 
@@ -104,20 +107,20 @@ $app->group('/user', function () {
 
 	// id'den user profili
 	$this->get('/{id:[0-9]+}/profile', function ($request, $response, $args) {
-        $profile = Profile::where('user_id','=',$args['id'])->get()->first();
+        $profile = Profile::where('user_id','=',$args['id'])->where('deleted',0)->get()->first();
 		return $response->withStatus(200)->getBody()->write(json_encode($profile));
     })->setName('user_profile');
 
     // id'den user profili
 	$this->get('/profile', function ($request, $response, $args) {
-		$token = Token::where("token",$request->getHeader('token')[0])->get()->first();
+		$token = Token::where("token",$request->getHeader('token')[0])->where('deleted',0)->get()->first();
         $profile = Profile::where('user_id','=',$token->user_id)->get()->first();
 		return $response->withStatus(200)->getBody()->write(json_encode($profile));
     })->setName('user_profile');
 
     // profili güncelle
 	$this->put('/profile', function ($request, $response, $args) {
-		$token = Token::where("token",$request->getHeader('token')[0])->get()->first();
+		$token = Token::where("token",$request->getHeader('token')[0])->where('deleted',0)->get()->first();
 		$user = $token->user();
 		$profile = $user->profile();
 
@@ -139,7 +142,7 @@ $app->group('/user', function () {
 			$profile->save();
 			return $response->withStatus(200)->getBody()->write(json_encode($profile));
 		}catch (Illuminate\Database\QueryException $e){
-			return $response->write('{"message":"Profil güncellenemedi !"}')->withStatus(500);
+			return $response->write('{"msg":"Profil güncellenemedi !"}')->withStatus(500);
 		}
     })->setName('user_profile_update');
 	
@@ -177,6 +180,22 @@ $app->group('/food', function () {
 		$searchData = json_decode($request->getBody());
 		$cleanStr = preg_replace('/[ ]*,[ ]*/i',',',$searchData->search);
 		$materials = explode(",", $cleanStr);
+
+		$materials = array_filter($materials);
+
+		if(count($materials) > 20){
+			return $response->write('{"msg":"çok fazla malzeme bilgisi var"}');
+		}
+
+		foreach ($materials as $material) {
+			$oldMaterial = Material::where('name',$material)->get();
+
+			if(!$oldMaterial->isEmpty()){
+				$oldMaterial = $oldMaterial->find();
+				$oldMaterial->count += 1;
+				$oldMaterial->last_update_date = date("YmdHi");
+			}
+		}
 
 		$sqlStr = "*".implode("* *",$materials)."*";
 
@@ -249,7 +268,7 @@ $app->group('/food', function () {
         $food = Food::find($args['id']);
 		
 		if($food->user_id != $user->user_id){
-			return $response->withStatus(401)->write('{"message":"Yetkisiz erişim"}');
+			return $response->withStatus(401)->write('{"msg":"Yetkisiz erişim"}');
 		}
 		
 		$food->name = $newFood->name;
@@ -269,7 +288,7 @@ $app->group('/food', function () {
         $food = Food::find($args['id']);
 		
 		if($food->user_id != $user->user_id){
-			return $response->withStatus(401)->write('{"message":"Yetkisiz erişim"}');
+			return $response->withStatus(401)->write('{"msg":"Yetkisiz erişim"}');
 		}
 		
 		$food->deleted = true;

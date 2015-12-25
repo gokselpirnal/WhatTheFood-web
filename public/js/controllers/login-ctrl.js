@@ -3,8 +3,8 @@
  */
 
 angular.module('wtf')
-    .controller('LoginCtrl', ['$scope', 'LoginService', '$rootScope', '$location', '$cookies', '$http',
-        function ($scope, LoginService, $rootScope, $location, $cookies, $http) {
+    .controller('LoginCtrl', ['$scope', 'UserService', '$rootScope', '$location', '$cookies', 'ngNotify', '$http',
+        function ($scope, UserService, $rootScope, $location, $cookies, ngNotify, $http) {
 
             var url = window.location.hash;
 
@@ -22,10 +22,18 @@ angular.module('wtf')
                 var email = user.email;
                 var password = user.password;
 
-                LoginService
+                UserService
                     .login(email, password, function (response) {
-                        if (!response.error) {
-                            LoginService.setCredentials(response);
+                        if(response.data.msg){
+                            ngNotify.set(response.data.msg, {
+                                position: 'bottom',
+                                type: 'error',
+                                duration: 2000,
+                                button: true,
+                                sticky: true
+                            });
+                        } else if (response.status == 200) {
+                            UserService.setCredentials(response.data);
                             $cookies.putObject('globals', $rootScope.globals);
 
                             // http isteklerinin headerına token ekle
