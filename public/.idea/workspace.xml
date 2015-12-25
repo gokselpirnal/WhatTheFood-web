@@ -34,10 +34,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login-ctrl.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login-ctrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/controllers/login-ctrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55263156" vertical-offset="225" max-vertical-offset="884">
+            <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="884">
               <caret line="33" column="31" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
               <folding />
             </state>
@@ -64,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="profile.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/profile/profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.730769" vertical-offset="366" max-vertical-offset="935">
-              <caret line="41" column="14" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.40246046" vertical-offset="366" max-vertical-offset="935">
+              <caret line="35" column="130" selection-start-line="35" selection-start-column="130" selection-end-line="35" selection-end-column="130" />
               <folding />
             </state>
           </provider>
@@ -77,8 +77,18 @@
       <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/home/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.769231" vertical-offset="451" max-vertical-offset="1071">
-              <caret line="43" column="58" selection-start-line="43" selection-start-column="58" selection-end-line="43" selection-end-column="58" />
+            <state vertical-scroll-proportion="-16.346153" vertical-offset="408" max-vertical-offset="1071">
+              <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/food/list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="510">
+              <caret line="11" column="130" selection-start-line="11" selection-start-column="130" selection-end-line="11" selection-end-column="130" />
               <folding />
             </state>
           </provider>
@@ -122,10 +132,8 @@
         <option value="$PROJECT_DIR$/templates/food/add.html" />
         <option value="$PROJECT_DIR$/js/services/register-service.js" />
         <option value="$PROJECT_DIR$/js/controllers/header-ctrl.js" />
-        <option value="$PROJECT_DIR$/templates/food/list.html" />
         <option value="$PROJECT_DIR$/templates/about/about.html" />
         <option value="$PROJECT_DIR$/js/services/category-service.js" />
-        <option value="$PROJECT_DIR$/templates/profile/profile.html" />
         <option value="$PROJECT_DIR$/templates/user/register.html" />
         <option value="$PROJECT_DIR$/templates/user/login.html" />
         <option value="$PROJECT_DIR$/templates/header/header.html" />
@@ -138,11 +146,13 @@
         <option value="$PROJECT_DIR$/js/controllers/user-ctrl.js" />
         <option value="$PROJECT_DIR$/templates/food/detail.html" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/templates/home/home.html" />
         <option value="$PROJECT_DIR$/js/services/login-service.js" />
         <option value="$PROJECT_DIR$/js/services/user-service.js" />
         <option value="$PROJECT_DIR$/js/controllers/register-ctrl.js" />
         <option value="$PROJECT_DIR$/js/controllers/login-ctrl.js" />
+        <option value="$PROJECT_DIR$/templates/home/home.html" />
+        <option value="$PROJECT_DIR$/templates/food/list.html" />
+        <option value="$PROJECT_DIR$/templates/profile/profile.html" />
       </list>
     </option>
   </component>
@@ -683,13 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/food/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="510">
-          <caret line="2" column="29" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/services/category-service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="697">
@@ -809,22 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/profile/profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.730769" vertical-offset="366" max-vertical-offset="935">
-          <caret line="41" column="14" selection-start-line="41" selection-start-column="14" selection-end-line="41" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/home/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.769231" vertical-offset="451" max-vertical-offset="1071">
-          <caret line="43" column="58" selection-start-line="43" selection-start-column="58" selection-end-line="43" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/services/home-service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
@@ -851,8 +838,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/controllers/login-ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55263156" vertical-offset="225" max-vertical-offset="884">
+        <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="884">
           <caret line="33" column="31" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/home/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.346153" vertical-offset="408" max-vertical-offset="1071">
+          <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/food/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="510">
+          <caret line="11" column="130" selection-start-line="11" selection-start-column="130" selection-end-line="11" selection-end-column="130" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/profile/profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40246046" vertical-offset="366" max-vertical-offset="935">
+          <caret line="35" column="130" selection-start-line="35" selection-start-column="130" selection-end-line="35" selection-end-column="130" />
           <folding />
         </state>
       </provider>

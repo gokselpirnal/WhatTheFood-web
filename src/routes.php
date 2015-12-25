@@ -68,7 +68,7 @@ $app->post('/login',function($request, $response, $args){
 	$user["token"] = $token;
 	$user->password = null;
 	
-	$response->write(json_encode($user));
+	$response->write(json_encode($user).'     ');
 	return $response->withHeader('Content-type', 'application/json')->withStatus(200);
 });
 
@@ -89,7 +89,7 @@ $app->post('/register',function($request, $response, $args){
 	
 	try{
 		$newUser->save();
-		$response->getBody()->write(json_encode($newUser));
+		$response->getBody()->write(json_encode($newUser).'     ');
 	}catch (Illuminate\Database\QueryException $e){
 		$errorCode = $e->errorInfo[1];
 		// column unique
@@ -108,14 +108,14 @@ $app->group('/user', function () {
 	// id'den user profili
 	$this->get('/{id:[0-9]+}/profile', function ($request, $response, $args) {
         $profile = Profile::where('user_id','=',$args['id'])->where('deleted',0)->get()->first();
-		return $response->withStatus(200)->getBody()->write(json_encode($profile));
+		return $response->withStatus(200)->getBody()->write(json_encode($profile).'     ');
     })->setName('user_profile');
 
     // id'den user profili
 	$this->get('/profile', function ($request, $response, $args) {
 		$token = Token::where("token",$request->getHeader('token')[0])->where('deleted',0)->get()->first();
         $profile = Profile::where('user_id','=',$token->user_id)->get()->first();
-		return $response->withStatus(200)->getBody()->write(json_encode($profile));
+		return $response->withStatus(200)->getBody()->write(json_encode($profile).'     ');
     })->setName('user_profile');
 
     // profili güncelle
@@ -140,7 +140,7 @@ $app->group('/user', function () {
 
 		try{
 			$profile->save();
-			return $response->withStatus(200)->getBody()->write(json_encode($profile));
+			return $response->withStatus(200)->getBody()->write(json_encode($profile).'     ');
 		}catch (Illuminate\Database\QueryException $e){
 			return $response->write('{"msg":"Profil güncellenemedi !"}')->withStatus(500);
 		}
@@ -149,7 +149,7 @@ $app->group('/user', function () {
 	// id'den yemekler
 	$this->get('/{id:[0-9]+}/foods/{page:[0-9]+}', function ($request, $response, $args) {
         $foods = Food::where('user_id',$args['id'])->select('food_id','name','description')->take(6)->offset($args['page']*6)->orderBy('food_id','DESC')->get();
-		return $response->withStatus(200)->getBody()->write(json_encode($foods));
+		return $response->withStatus(200)->getBody()->write(json_encode($foods).'     ');
     })->setName('user_foods');
 	
 })->add($UserToken);
@@ -161,13 +161,13 @@ $app->group('/category', function () {
 	// tüm kategoriler
 	$this->get('/all', function ($request, $response, $args) {
         $categories = Category::all();
-		return $response->withStatus(200)->getBody()->write(json_encode($categories));
+		return $response->withStatus(200)->getBody()->write(json_encode($categories).'     ');
     })->setName('categories');
 	
 	// kategoriye ait yemekler
 	$this->get('/{id:[0-9]+}/{page:[0-9]+}', function ($request, $response, $args) {
         $foods = Food::where('category_id',$args['id'])->select('food_id','name','description')->take(6)->offset($args['page']*6)->orderBy('food_id','DESC')->get();
-		return $response->withStatus(200)->getBody()->write(json_encode($foods));
+		return $response->withStatus(200)->getBody()->write(json_encode($foods).'     ');
     })->setName('user_foods');
 	
 })->add($UserToken);
@@ -191,10 +191,20 @@ $app->group('/food', function () {
 			$oldMaterial = Material::where('name',$material)->get();
 
 			if(!$oldMaterial->isEmpty()){
-				$oldMaterial = $oldMaterial->find();
+				$oldMaterial = $oldMaterial->first();
 				$oldMaterial->count += 1;
 				$oldMaterial->last_update_date = date("YmdHi");
+
+				$oldMaterial->save();
+			}else{
+				$newMaterial = new Material;
+				$newMaterial->name = $material;
+				$newMaterial->create_date = date("YmdHi");
+				$newMaterial->last_update_date = date("YmdHi");
+
+				$newMaterial->save();
 			}
+
 		}
 
 		$sqlStr = "*".implode("* *",$materials)."*";
@@ -207,21 +217,22 @@ $app->group('/food', function () {
 			WHERE MATCH(`materials`) AGAINST(? IN BOOLEAN MODE) 
 			ORDER BY relevance/( LENGTH( `materials` ) - LENGTH( REPLACE( `materials`, '\n', '' ) ) + 1 ) DESC LIMIT 0,18",array($sqlStr ,$sqlStr ));
 		
-		return $response->write(json_encode($foods,JSON_UNESCAPED_UNICODE));
+		
+		return $response->write(json_encode($foods)."     ");
     })->setName('search_foods');
 	
 	// sayfalı son yemekler 
 	$this->get('/all/{page:[0-9]+}', function ($request, $response, $args) {
         $food = Food::select('food_id','name','description')->where('deleted',0)->take(6)->offset($args['page']*6)->orderBy('food_id','DESC')->get();
         if($food)
-			return $response->withStatus(200)->write(json_encode($food));
+			return $response->withStatus(200)->write(json_encode($food).'     ');
 		return $response->withStatus(404)->write('{"msg": "ERR"}');
     })->setName('foods');
 	
 	// sayfalı son yemekler 
 	$this->get('/popular/{page:[0-9]+}', function ($request, $response, $args) {
-        $food = Food::take(10)->offset($args['page']*10)->orderBy('displayed','DESC')->get();
-		return $response->withStatus(200)->write(json_encode($food));
+        $food = Food::take(6)->offset($args['page']*6)->orderBy('displayed','DESC')->get();
+		return $response->withStatus(200)->write(json_encode($food).'     ');
     })->setName('foods');
 
 	// id'den yemek
@@ -232,7 +243,7 @@ $app->group('/food', function () {
         $food->save();
 		if($food){
 			$food->user = $food->profile();
-			return $response->withStatus(200)->write(json_encode($food));
+			return $response->withStatus(200)->write(json_encode($food).'     ');
 		}
 		return $response->withStatus(404)->write('{"msg": "ERR"}');
     })->setName('food');
@@ -254,7 +265,7 @@ $app->group('/food', function () {
 		
 		try{
 			$food->save();
-			return $response->withStatus(200)->write(json_encode($food));
+			return $response->withStatus(200)->write(json_encode($food).'     ');
 		}catch (Illuminate\Database\QueryException $e){
 			return $response->withStatus(200)->write('{"msg": "ERR"}');
 		}
@@ -277,7 +288,7 @@ $app->group('/food', function () {
 		$food->last_update_date = date("YmdHi");
 		
 		if($food->save()){
-			return $response->withStatus(200)->getBody()->write(json_encode($food));
+			return $response->withStatus(200)->getBody()->write(json_encode($food).'     ');
 		}
 		return $response->withStatus(304)->getBody()->write('{"msg": "ERR"}');
     })->setName('food');

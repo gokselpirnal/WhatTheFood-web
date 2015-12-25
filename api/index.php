@@ -19,7 +19,7 @@ $settings = array(
     'database' => 'wtf_db',
     'username' => 'root',
     'password' => '',
-    'collation' => 'utf8_general_ci',
+    'collation' => 'utf8_turkish_ci',
     'charset' => 'utf8',
     'prefix' => ''
 );
