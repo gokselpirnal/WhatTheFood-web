@@ -2,6 +2,7 @@
 
 class Photo extends Illuminate\Database\Eloquent\Model {
 	protected $table = 'photos';
+	protected $primaryKey = 'photo_id';
 	public $timestamps = false;
 
 	public function food(){

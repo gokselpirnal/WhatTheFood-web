@@ -7,11 +7,21 @@ angular.module('wtf')
         function ($scope, HomeService, $rootScope, $location, $cookies, $http) {
 
             $scope.latestFoods = [];
+            $scope.searchedFoods = undefined;
+            $scope.searchText = '';
 
             $scope.latestFoods = function () {
                 HomeService.latestFoods(function (response) {
                     if (!response.error) {
                         $scope.latestFoods = response;
+                    }
+                })
+            };
+
+            $scope.search = function (searchText) {
+                HomeService.search(searchText,function (response) {
+                    if (!response.error) {
+                        $scope.searchedFoods = response;
                     }
                 })
             };

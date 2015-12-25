@@ -2,6 +2,7 @@
 
 class User extends Illuminate\Database\Eloquent\Model {
 	protected $table = 'users';
+	protected $primaryKey = 'user_id';
 	public $timestamps = false;
 
 	public function foods(){

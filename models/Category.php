@@ -2,6 +2,7 @@
 
 class Category extends Illuminate\Database\Eloquent\Model {
 	protected $table = 'categories';
+	protected $primaryKey = 'category_id';
 	public $timestamps = false;
 
 	public function foods(){

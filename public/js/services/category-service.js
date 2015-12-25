@@ -3,15 +3,14 @@
  */
 
 angular.module('wtf')
-    .factory('HomeService', ['$http', '$rootScope', function ($http, $rootScope) {
+    .factory('CategoryService', ['$http', '$rootScope', function ($http, $rootScope) {
 
         var service = {};
 
-
-        service.latestFoods = function (callback) {
+        service.getAll = function (callback) {
             $http({
                 method: 'GET',
-                url: $rootScope.serviceUrl + "/food/all/0",
+                url: $rootScope.serviceUrl + '/category/all',
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             })
@@ -20,12 +19,11 @@ angular.module('wtf')
                 })
         };
 
-        service.search = function (searchText, callback) {
-            var data = {search: searchText};
+        service.getFoods = function (categoryId, page, callback) {
             $http({
-                method: 'POST',
-                url: $rootScope.serviceUrl + "/food/search",
-                data: data,
+                method: 'GET',
+                url: $rootScope.serviceUrl + '/category/' + categoryId + '/' + page,
+                data: null,
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {

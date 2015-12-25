@@ -26,9 +26,9 @@ angular.module('wtf')
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             })
-                .then(function successCallback(response) {
+                .then(function (response) {
                     callback(response.data);
-                })
+                });
 
         };
 
@@ -36,7 +36,7 @@ angular.module('wtf')
             $http({
                 method: 'POST',
                 url: $rootScope.serviceUrl + '/food',
-                data: null,
+                data: food,
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {

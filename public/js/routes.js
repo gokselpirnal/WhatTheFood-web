@@ -80,8 +80,25 @@ angular.module('wtf', ['ui.bootstrap', 'ui.router', 'ngNotify', 'angular-loading
                         }
                     }
                 })
+                .state('profile_edit', {
+                    url: '/profile/edit',
+                    views: {
+                        "header": {
+                            templateUrl: "templates/header/header.html",
+                            controller: "HeaderCtrl"
+                        },
+                        "footer": {
+                            templateUrl: "templates/footer/footer.html",
+                            controller: "FooterCtrl"
+                        },
+                        "content": {
+                            templateUrl: "templates/profile/edit.html",
+                            controller: "UserCtrl"
+                        }
+                    }
+                })
                 .state('profile', {
-                    url: '/profile',
+                    url: '/profile/:userId',
                     views: {
                         "header": {
                             templateUrl: "templates/header/header.html",
@@ -94,6 +111,23 @@ angular.module('wtf', ['ui.bootstrap', 'ui.router', 'ngNotify', 'angular-loading
                         "content": {
                             templateUrl: "templates/profile/profile.html",
                             controller: "UserCtrl"
+                        }
+                    }
+                })
+                .state('food_add', {
+                    url: '/food/add',
+                    views: {
+                        "header": {
+                            templateUrl: "templates/header/header.html",
+                            controller: "HeaderCtrl"
+                        },
+                        "footer": {
+                            templateUrl: "templates/footer/footer.html",
+                            controller: "FooterCtrl"
+                        },
+                        "content": {
+                            templateUrl: "templates/food/add.html",
+                            controller: "FoodCtrl"
                         }
                     }
                 })
@@ -110,6 +144,23 @@ angular.module('wtf', ['ui.bootstrap', 'ui.router', 'ngNotify', 'angular-loading
                         },
                         "content": {
                             templateUrl: "templates/food/detail.html",
+                            controller: "FoodCtrl"
+                        }
+                    }
+                })
+                .state('category', {
+                    url: '/category/:categoryId',
+                    views: {
+                        "header": {
+                            templateUrl: "templates/header/header.html",
+                            controller: "HeaderCtrl"
+                        },
+                        "footer": {
+                            templateUrl: "templates/footer/footer.html",
+                            controller: "FooterCtrl"
+                        },
+                        "content": {
+                            templateUrl: "templates/food/list.html",
                             controller: "FoodCtrl"
                         }
                     }

@@ -16,8 +16,14 @@
                 <li>
                     <a href="#/about"><span class="fa fa-info small"></span> Hakkında</a>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-list small"></span> Kategoriler</a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="category in categories"><a href="#/category/{{category.category_id}}" >{{category.name}}</a></li>
+                    </ul>
+                </li>
                 <li>
-                    <a href="#/about"><span class="fa fa-plus small"></span> Kendi Tarifini Ekle</a>
+                    <a href="#/food/add"><span class="fa fa-plus small"></span> Kendi Tarifini Ekle</a>
                 </li>
 
             </ul>
@@ -26,11 +32,11 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.email}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#/profile">Profil</a></li>
-                        <li><a href="#">Kendi Tarifini Ekle</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#/profile/{{user._id}}"><span class="fa fa-user"></span> Profil</a></li>
+                        <li><a href="#/profile/edit"><span class="fa fa-edit"></span> Profili Düzenle</a></li>
+                        <li><a href="#/food/add"><span class="fa fa-plus"></span> Kendi Tarifini Ekle</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#/logout">Çıkış</a></li>
+                        <li><a href="#/logout"><span class="fa fa-sign-out"></span> Çıkış</a></li>
                     </ul>
                 </li>
             </ul>

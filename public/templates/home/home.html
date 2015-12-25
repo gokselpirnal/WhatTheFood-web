@@ -12,9 +12,9 @@
             <!-- /.col-lg-6 -->
             <div class="col-lg-8 col-lg-offset-2">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="tavuk,tel şehriye,patates,çikolata,dondurma">
+                    <input type="text" class="form-control" ng-model="searchText" placeholder="tavuk,tel şehriye,patates,çikolata,dondurma">
       <span class="input-group-btn">
-        <button class="btn btn-danger" type="button">Tarifleri Bul</button>
+        <button class="btn btn-danger" type="button" ng-click="search(searchText)">Tarifleri Bul</button>
       </span>
                 </div>
                 <!-- /input-group -->
@@ -30,7 +30,7 @@
     <!-- Title -->
     <div class="row">
         <div class="col-lg-12">
-            <h3>Son eklenen tarifler</h3>
+            <h3>{{searchedFoods ? "Arama Sonuçları": "Son eklenen tarifler"}}</h3>
         </div>
     </div>
     <!-- /.row -->
@@ -38,19 +38,17 @@
     <!-- Page Features -->
     <div class="row text-center">
 
-        <div class="col-md-4 col-sm-6 hero-feature" ng-repeat="food in latestFoods">
+        <div class="col-md-4 col-sm-6 hero-feature" ng-repeat="food in (searchedFoods || latestFoods)">
             <div class="thumbnail">
-                <img src="http://lorempixel.com/400/200/food/{{food.food_id}}" alt="">
+                <a href="#/food/{{food.food_id}}">
+                    <img src="http://lorempixel.com/400/200/food/{{food.food_id%10}}" alt="">
+                </a>
 
-                <div class="caption">
-                    <h3>{{food.name}}</h3>
+                <div class="caption" style="height:150px;max-height: 150px;text-overflow: ellipsis;overflow: hidden;">
+                    <h3><b class="text-danger" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{food.name}}</b></h3>
 
-                    <p>{{food.description | limitTo: 120 }}{{food.description.length > 120 ? '...' : ''}}</p>
+                    <p class="small">{{food.description}}</p>
 
-                    <p>
-                        <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More
-                        Info</a>
-                    </p>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 class Comment extends Illuminate\Database\Eloquent\Model {
 	protected $table = 'comments';
+	protected $primaryKey = 'comment_id';
 	public $timestamps = false;
 	
 	public function user(){

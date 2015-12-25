@@ -1,7 +1,7 @@
 <div class="container">
 
     <!-- Jumbotron Header -->
-    <div class="row " ng-init="food = detail()">
+    <div class="row well" ng-init="food = detail()">
         <div class="col-lg-3">
             <div class="thumbnail">
                 <img src="http://lorempixel.com/400/400/food" alt="">
@@ -16,6 +16,17 @@
             <b class="label label-danger">Hazırlanışı</b>
 
             <p class="well">{{food.description}}</p>
+
+        </div>
+        <div class="col-lg-2">
+            <div class="thumbnail">
+                <img src="http://lorempixel.com/400/400/people" alt="">
+            </div>
+        </div>
+        <div class="col-lg-10">
+            <h3><a href="#/profile/{{food.user.user_id}}">{{food.user.firstname}} {{food.user.lastname}}</a></h3>
+
+            <p>{{food.user.about}}</p>
         </div>
     </div>
 

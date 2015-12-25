@@ -7,10 +7,10 @@ angular.module('wtf')
 
         var service = {};
 
-        service.profile = function (callback) {
+        service.profile = function (userId, callback) {
             $http({
                 method: 'GET',
-                url: $rootScope.serviceUrl + "/user/" + $rootScope.globals.currentUser._id + "/profile",
+                url: $rootScope.serviceUrl + "/user/" + (userId || $rootScope.globals.currentUser._id) + "/profile",
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             })
@@ -20,17 +20,28 @@ angular.module('wtf')
 
         };
 
-        service.foods = function (callback) {
+        service.foods = function (userId, page, callback) {
             $http({
                 method: 'GET',
-                url: $rootScope.serviceUrl + "/user/" + $rootScope.globals.currentUser._id + "/foods/0",
+                url: $rootScope.serviceUrl + '/user/' + (userId || $rootScope.globals.currentUser._id) + '/foods/' + (page || 0),
                 data: null,
                 headers: {'Content-Type': 'application/json'}
             })
                 .then(function successCallback(response) {
                     callback(response.data);
                 })
+        };
 
+        service.updateProfile = function (profile) {
+            $http({
+                method: 'PUT',
+                url: $rootScope.serviceUrl + '/user/profile',
+                data: profile,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(function successCallback(response) {
+                    callback(response.data);
+                })
         };
 
         return service;

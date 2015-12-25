@@ -1,6 +1,6 @@
 ### WhatTheFood-web
 
-Mobil uygulaması mevcut olan proje VTYS dersi için tekrardan düzenlendi
+Mobil uygulaması mevcut olan proje VTYS dersi için tekrardan düzenleniyor
 
 ### Kurulum
 

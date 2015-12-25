@@ -2,6 +2,7 @@
 
 class Profile extends Illuminate\Database\Eloquent\Model {
 	protected $table = 'profiles';
+	protected $primaryKey = 'user_id';
 	public $timestamps = false;
 
 	public function user(){

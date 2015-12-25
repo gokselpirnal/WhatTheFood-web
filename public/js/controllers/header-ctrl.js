@@ -3,9 +3,20 @@
  */
 
 angular.module('wtf')
-    .controller('HeaderCtrl', ['$scope', '$cookies', function ($scope, $cookies) {
+    .controller('HeaderCtrl', ['$scope', '$rootScope', '$cookies', 'CategoryService', function ($scope,$rootScope, $cookies, CategoryService) {
 
         $scope.title = "WhatTheFood";
         $scope.user = $cookies.getObject("globals").currentUser;
+
+        $scope.getCategories = function () {
+            CategoryService.getAll(function (response) {
+                $scope.categories = response;
+                $rootScope.categories = $scope.categories;
+            });
+        };
+
+        if(!$rootScope.categories){
+            $scope.getCategories();
+        }
 
     }]);
