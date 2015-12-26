@@ -120,14 +120,9 @@ $app->group('/user', function () {
 
     // profili güncelle
 	$this->put('/profile', function ($request, $response, $args) {
-		$token = Token::where("token",$request->getHeader('token')[0])->where('deleted',0)->get()->first();
+		$token = Token::where("token",$request->getHeader('token')[0])->get()->first();
 		$user = $token->user();
 		$profile = $user->profile();
-
-		if($profile == null){
-			$profile = new Profile;
-			$profile->create_date = date("YmdHi");
-		}
 
 		$newProfile = json_decode($request->getBody());
 		
@@ -209,13 +204,9 @@ $app->group('/food', function () {
 
 		$sqlStr = "*".implode("* *",$materials)."*";
 
-		// domates* tavuk* malzeme* şeklinde olacak
-        $foods = Food::hydrateRaw("
-			SELECT *, ( LENGTH( `materials` ) - LENGTH( REPLACE( `materials`, '\n', '' ) ) + 1 ) as materials_count, 
-			MATCH(`materials`) AGAINST(? IN BOOLEAN MODE) AS relevance 
-			FROM `foods` 
-			WHERE MATCH(`materials`) AGAINST(? IN BOOLEAN MODE) 
-			ORDER BY relevance/( LENGTH( `materials` ) - LENGTH( REPLACE( `materials`, '\n', '' ) ) + 1 ) DESC LIMIT 0,18",array($sqlStr ,$sqlStr ));
+		// giri *domates* *tavuk* *malzeme* şeklindedir
+		// saklı yordam kullanılmıştır
+        $foods = Food::hydrateRaw("CALL searchRecipe(?)",array($sqlStr));
 		
 		
 		return $response->write(json_encode($foods)."     ");

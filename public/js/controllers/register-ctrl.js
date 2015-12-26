@@ -36,6 +36,7 @@ angular.module('wtf')
                                 button: true,
                                 sticky: true
                             });
+                            $location.path('#/login');
                         }
                     })
             }
