@@ -9,6 +9,7 @@ Mutfağınızda bulunan malzemeler ile arama yaparak veritabanındaki en az malz
 
 
 ```sh
+$ composer install
 $ npm install
 $ bower install
 $ gulp
