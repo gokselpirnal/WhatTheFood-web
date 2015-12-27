@@ -19,6 +19,18 @@ angular.module('wtf')
                 })
         };
 
+        service.getComments = function (foodId, page, callback) {
+            $http({
+                method: 'GET',
+                url: $rootScope.serviceUrl + '/food/' + foodId + '/comments/' + page,
+                data: null,
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(function successCallback(response) {
+                    callback(response);
+                })
+        };
+
         service.detail = function (foodId, callback) {
             $http({
                 method: 'GET',

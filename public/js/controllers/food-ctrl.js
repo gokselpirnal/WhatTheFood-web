@@ -3,18 +3,22 @@
  */
 
 angular.module('wtf')
-    .controller('FoodCtrl', ['$scope', 'FoodService', 'CategoryService', 'UserService', '$state', '$stateParams', '$rootScope', '$location', '$cookies', 'ngNotify', '$http',
-        function ($scope, FoodService, CategoryService, UserService, $state, $stateParams, $rootScope, $location, $cookies, ngNotify, $http) {
+    .controller('FoodCtrl', ['$scope', 'FoodService', 'CommentService', 'CategoryService', 'UserService', '$state', '$stateParams', '$rootScope', '$location', '$cookies', 'ngNotify', '$http',
+        function ($scope, FoodService, CommentService, CategoryService, UserService, $state, $stateParams, $rootScope, $location, $cookies, ngNotify, $http) {
 
             $scope.profile = {};
             $scope.foods = {};
+            $scope.comments = [];
             $scope.food = {};
             $scope.newFood = {};
+            $scope.newComment = {};
             $scope.page = 0;
+            $scope.commentsPage = 0;
             $scope.categories = [];
             $scope.selectedCategoryName = "Kategori Seçiniz";
             $scope.material = '';
             $scope.isLastPage = false;
+            $scope.isLastCommentsPage = false;
             $scope.user = $cookies.getObject("globals").currentUser;
 
             $scope.getPage = function (page) {
@@ -29,12 +33,68 @@ angular.module('wtf')
                     })
             };
 
+            $scope.getComments = function () {
+                if ($scope.isLastCommentsPage) {
+                    return;
+                }
+                FoodService.getComments($stateParams.foodId, $scope.commentsPage++, function (response) {
+                    if (!response.error) {
+                        console.log(response);
+                        if (response.data.length == 0 || response.data.length < 10)
+                            $scope.isLastCommentsPage = true;
+                        Array.prototype.push.apply($scope.comments, response.data);
+                    }
+                });
+            };
+
+
+            $scope.sendComment = function (comment) {
+                CommentService.create(comment, function (response) {
+                    if (!response.error) {
+                        console.log(response);
+                        $scope.comments.unshift(response.data);
+                        $scope.newComment = {};
+
+                        ngNotify.set('Yorumunuz Kaydedildi', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
+                    }
+                });
+            };
+
+            $scope.removeComment = function (commentId) {
+                CommentService.remove(commentId, function (response) {
+                    if (response.status == 200) {
+                        ngNotify.set('Yorumunuz Silindi', {
+                            position: 'bottom',
+                            type: 'error',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
+                    } else {
+                        ngNotify.set('Yorumunuz silinemedi', {
+                            position: 'bottom',
+                            type: 'info',
+                            duration: 2000,
+                            button: true,
+                            sticky: true
+                        });
+                    }
+                })
+            };
+
+
             $scope.detail = function (foodId) {
                 foodId = (foodId || $stateParams.foodId);
                 FoodService.detail(foodId, function (response) {
-                    if(response.status == 200) {
+                    if (response.status == 200) {
                         $scope.food = response.data;
-                    }else{
+                    } else {
                         ngNotify.set('Tarif bulunamadı !', {
                             position: 'bottom',
                             type: 'error',
@@ -68,7 +128,6 @@ angular.module('wtf')
                         });
                     }
                 });
-
             };
 
             $scope.removeFood = function (foodId) {
@@ -81,7 +140,7 @@ angular.module('wtf')
                             button: true,
                             sticky: true
                         });
-                    }else{
+                    } else {
                         ngNotify.set('Tarfiniz silinemedi', {
                             position: 'bottom',
                             type: 'info',
